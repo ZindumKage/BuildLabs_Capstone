@@ -6,7 +6,7 @@ from app.core.config import settings
 
 
 DATABASE_URL = (
-    f"mysql+pymysql://{settings.DB_USER}"
+    f"mysql+pymysql://{settings.DB_USER}:{settings.DB_PASSWORD}"
     f"@{settings.DB_HOST}:{settings.DB_PORT}"
     f"/{settings.DB_NAME}"
 )
@@ -14,7 +14,7 @@ DATABASE_URL = (
 engine = create_engine(
     DATABASE_URL,
     echo=True
-)
+) 
 
 SessionLocal = sessionmaker(
     autocommit=False,
