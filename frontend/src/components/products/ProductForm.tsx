@@ -31,7 +31,7 @@ export function ProductForm({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: defaultValues?.name ?? "",
-      sku: defaultValues?.sku ?? "",
+     
       description: defaultValues?.description ?? "",
       category: defaultValues?.category ?? "",
       price: defaultValues?.price ?? 0,
@@ -51,13 +51,7 @@ export function ProductForm({
             <p className="text-xs text-destructive">{errors.name.message}</p>
           )}
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="sku">SKU *</Label>
-          <Input id="sku" placeholder="CC-500-ML" {...register("sku")} />
-          {errors.sku && (
-            <p className="text-xs text-destructive">{errors.sku.message}</p>
-          )}
-        </div>
+        
       </div>
 
       {/* Description */}

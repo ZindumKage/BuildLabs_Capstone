@@ -5,7 +5,6 @@ from datetime import datetime
 
 class ProductCreate(BaseModel):
     name: str
-    sku: str
     description: Optional[str] = None
     category: Optional[str] = None
     price: float

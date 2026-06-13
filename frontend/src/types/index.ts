@@ -39,7 +39,6 @@ export interface Product {
 
 export interface CreateProductRequest {
   name: string;
-  sku: string;
   description: string;
   category: string;
   price: number;
