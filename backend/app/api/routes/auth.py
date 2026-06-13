@@ -47,7 +47,7 @@ def register(
         )
 
     user = User(
-        name=payload.full_name,
+        full_name=payload.full_name,
         email=payload.email,
         password=hash_password(
             payload.password
