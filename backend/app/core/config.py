@@ -13,8 +13,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     HYPERBOLIC_API_KEY: str
 
-    OPENAI_API_KEY: str 
-    GROQ_API_KEY: str
+    # OPENAI_API_KEY: str 
+    # GROQ_API_KEY: str
     HYPERBOLIC_API_KEY: str 
     
     
