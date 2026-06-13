@@ -15,7 +15,7 @@ from app.schemas.product import (
     ProductCreate,
     ProductUpdate,
     ProductResponse,
-    ProductListResponse
+    ProductListResponse,
 )
 
 from app.core.security import (
@@ -36,20 +36,16 @@ def build_product_response(product: Product) -> ProductResponse:
     return response
 
 
-
-@router.post(
-    "",
-    response_model=ProductResponse
-)
+@router.post("", response_model=ProductResponse)
 def create_product(
     payload: ProductCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
 
     product = Product(
         name=payload.name,
-        sku=generate_sku(payload.name),
+        sku=generate_sku(payload.name, db),
         description=payload.description,
         category=payload.category,
         price=payload.price,
@@ -81,6 +77,16 @@ def get_products(
         "page_size": len(items),
         "pages": 1,
     }
+
+
+@router.get("/categories")
+def get_categories(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    categories = db.query(Product.category).distinct().all()
+
+    return [category[0] for category in categories if category[0]]
 
 
 @router.get("/{product_id}", response_model=ProductResponse)
