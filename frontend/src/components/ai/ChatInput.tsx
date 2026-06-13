@@ -13,7 +13,7 @@ interface ChatInputProps {
 export function ChatInput({ onSend, isLoading }: ChatInputProps) {
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
+ 
   // Listen for suggestion events from ChatWindow
   useEffect(() => {
     const handler = (e: Event) => {
