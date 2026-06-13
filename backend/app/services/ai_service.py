@@ -118,7 +118,7 @@ class AIService:
                     "Authorization": f"Bearer {settings.HYPERBOLIC_API_KEY}",
                 },
                 json={
-                    "model": "meta-llama/Llama-3.3-70B-Instruct",
+                    "model": "meta-llama/Llama-3.2-3B-Instruct",
                     "messages": [
                         {
                             "role": "system",
