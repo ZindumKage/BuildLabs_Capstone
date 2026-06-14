@@ -21,6 +21,7 @@ from app.schemas.product import (
 from app.core.security import (
     get_current_user,
 )
+from app.core.permissions import require_roles
 
 router = APIRouter(
     prefix="/products",
@@ -40,7 +41,7 @@ def build_product_response(product: Product) -> ProductResponse:
 def create_product(
     payload: ProductCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_roles("admin", "manager")),
 ):
 
     product = Product(
@@ -111,7 +112,7 @@ def update_product(
     product_id: int,
     payload: ProductUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_roles("admin", "manager")),
 ):
     product = db.query(Product).filter(Product.id == product_id).first()
 
@@ -136,7 +137,7 @@ def update_product(
 def delete_product(
     product_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_roles("admin")),
 ):
     product = db.query(Product).filter(Product.id == product_id).first()
 

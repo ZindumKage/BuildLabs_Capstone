@@ -3,12 +3,14 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import {
   LayoutDashboard,
   Package,
   Warehouse,
   ShoppingCart,
   Bot,
+  Users,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -24,7 +26,9 @@ const navItems: {
   { href: "/inventory", label: "Inventory", icon: Warehouse },
   { href: "/sales", label: "Sales", icon: ShoppingCart },
   { href: "/ai", label: "AI Assistant", icon: Bot },
+  { href: "/users", label: "Users", icon: Users },
 ];
+
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
@@ -32,6 +36,41 @@ interface SidebarProps {
 
 export function Sidebar({ open, onClose }: SidebarProps) {
   const pathname = usePathname();
+
+  const { data: user } =
+  useCurrentUser();
+
+const filteredNavItems =
+  navItems.filter((item) => {
+    if (!user) return false;
+
+    switch (user.role) {
+      case "admin":
+        return true;
+
+      case "manager":
+        return ![
+          "/dashboard",
+          "/users",
+        ].includes(item.href);
+
+      case "staff":
+        return [
+          "/products",
+          "/inventory",
+          "/sales",
+        ].includes(item.href);
+
+      case "viewer":
+        return [
+          "/products",
+          "/sales",
+        ].includes(item.href);
+
+      default:
+        return false;
+    }
+  });
 
   return (
     <>
@@ -70,7 +109,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
         {/* Navigation */}
         <nav className="flex-1 space-y-1 p-4">
-          {navItems.map(({ href, label, icon: Icon }) => {
+          {filteredNavItems.map(({ href, label, icon: Icon }) => {
             const isActive =
               href === "/dashboard"
                 ? pathname === "/dashboard"

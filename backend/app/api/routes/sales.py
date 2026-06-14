@@ -23,6 +23,7 @@ from app.services.sales_service import (
 from app.core.security import (
     get_current_user,
 )
+from app.core.permissions import require_roles
 
 router = APIRouter(
     prefix="/sales",
@@ -50,7 +51,7 @@ def build_sale_response(sale: Sale):
 def create_sale(
     payload: SaleCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_roles("admin", "manager", "staff")),
 ):
     sale = SalesService.create_sale(
         db=db,

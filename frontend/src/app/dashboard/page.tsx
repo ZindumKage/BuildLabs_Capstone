@@ -19,6 +19,7 @@ import { useDashboard, useRecentActivities } from "@/hooks/useDashboard";
 import { formatCurrency } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { getLowStockProducts } from "@/services/dashboard";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 function DashboardSkeleton() {
   return (
@@ -49,6 +50,7 @@ export default function DashboardPage() {
     queryFn: getLowStockProducts,
   });
   return (
+    <RoleGuard allowedRoles={["admin"]}>
     <ProtectedRoute>
       <AppShell title="Dashboard">
         <div className="space-y-6">
@@ -136,5 +138,6 @@ export default function DashboardPage() {
         </div>
       </AppShell>
     </ProtectedRoute>
+    </RoleGuard>
   );
 }

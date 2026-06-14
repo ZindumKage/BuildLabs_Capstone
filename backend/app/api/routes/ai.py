@@ -12,6 +12,8 @@ from app.schemas.ai import AIQueryRequest, AIQueryResponse
 from app.services.ai_service import AIService
 from datetime import timedelta
 
+from app.core.permissions import require_roles
+
 router = APIRouter(
     prefix="/ai",
     tags=["AI Assistant"],
@@ -25,7 +27,7 @@ router = APIRouter(
 def ai_query(
     payload: AIQueryRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_roles("admin", "manager")),
 ):
     try:
         intent_data = AIService.detect_intent(payload.question, payload.history)

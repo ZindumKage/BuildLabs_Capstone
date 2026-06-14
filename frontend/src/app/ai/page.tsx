@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { queryAI } from "@/services/ai";
 import { uid } from "@/lib/utils";
 import type { ChatMessage } from "@/types";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 export default function AIAssistantPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -81,6 +82,7 @@ export default function AIAssistantPage() {
   const handleClear = () => setMessages([]);
 
   return (
+    <RoleGuard allowedRoles={["admin", "manager"]}>
     <ProtectedRoute>
       <AppShell title="AI Assistant">
         <div className="flex flex-col h-[calc(100vh-8rem)] max-w-3xl mx-auto">
@@ -110,5 +112,6 @@ export default function AIAssistantPage() {
         </div>
       </AppShell>
     </ProtectedRoute>
+    </RoleGuard>
   );
 }
