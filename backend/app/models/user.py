@@ -1,7 +1,8 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, false
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import DateTime
+from sqlalchemy import Enum
 
 from datetime import datetime
 
@@ -27,4 +28,15 @@ class User(Base):
     created_at = Column(
         DateTime,
         default=datetime.utcnow
+    )
+    role = Column(
+        Enum(
+            "admin",
+            "manager",
+            "staff",
+            "viewer",
+            name="user_roles"
+        ),
+        default="staff",
+        nullable=False
     )

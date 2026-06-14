@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 
 /** Base URL — swap this for your deployed FastAPI URL via env var */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "https://buildlabs-capstone-2.onrender.com/api/v1";
-
+//const BASE_URL = "http://localhost:8000/api/v1"
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },

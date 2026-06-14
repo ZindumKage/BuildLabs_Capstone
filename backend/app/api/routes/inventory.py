@@ -13,6 +13,7 @@ from app.schemas.stock import StockAdjustment, StockMovementResponse
 from app.core.security import get_current_user
 
 from app.services.inventory_service import InventoryService
+from app.core.permissions import require_roles
 
 router = APIRouter(prefix="/inventory", tags=["Inventory"])
 
@@ -21,7 +22,7 @@ router = APIRouter(prefix="/inventory", tags=["Inventory"])
 def add_stock(
     payload: StockAdjustment,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_roles("admin", "manager")),
 ):
     product = InventoryService.add_stock(
         db=db,
@@ -41,7 +42,7 @@ def add_stock(
 def remove_stock(
     payload: StockAdjustment,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_roles("admin", "manager")),
 ):
     product = InventoryService.remove_stock(
         db=db,
@@ -59,16 +60,9 @@ def remove_stock(
 
 @router.get("/history")
 def get_stock_history(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Session = Depends(get_db), current_user: User = Depends(require_roles("admin", "manager", "staff"))
 ):
-    movements = (
-        db.query(StockMovement)
-        .order_by(
-            StockMovement.created_at.desc()
-        )
-        .all()
-    )
+    movements = db.query(StockMovement).order_by(StockMovement.created_at.desc()).all()
 
     items = [
         {
@@ -91,21 +85,17 @@ def get_stock_history(
         "pages": 1,
     }
 
+
 @router.get("/history/{product_id}")
 def get_product_history(
     product_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(
-        get_current_user
-    )
+    current_user: User = Depends(require_roles("admin", "manager","staff")),
 ):
-    movements = (
-        db.query(StockMovement)
-        .order_by(
-            StockMovement.created_at.desc()
-        )
-        .all()
-    )
+    movements = db.query(StockMovement).filter(StockMovement.product_id == product_id).order_by(
+        StockMovement.created_at.desc()
+    ).all()
+    
 
     items = [
         {

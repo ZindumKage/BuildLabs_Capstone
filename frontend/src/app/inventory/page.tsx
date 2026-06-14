@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+
 import { AppShell } from "@/components/layout/AppShell";
 import { ProtectedRoute } from "@/components/layout/ProtectedRoute";
 import {
@@ -36,6 +37,7 @@ import type {
   RemoveStockFormValues,
 } from "@/lib/validations";
 import type { MovementType } from "@/types";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 const movementBadge: Record<
   MovementType,
@@ -63,11 +65,11 @@ export default function InventoryPage() {
   });
   const { data: productsData } = useProducts({ page_size: 200 });
   console.log("productsData", productsData);
-//console.log("products", products);
+  //console.log("products", products);
   const addStock = useAddStock();
   const removeStock = useRemoveStock();
 
-const products = productsData?.items ?? [];
+  const products = productsData?.items ?? [];
 
   const handleAddStock = async (data: AddStockFormValues) => {
     setActionError(null);
@@ -94,6 +96,7 @@ const products = productsData?.items ?? [];
   };
 
   return (
+  <RoleGuard allowedRoles={["admin", "manager", "staff"]}>
     <ProtectedRoute>
       <AppShell title="Inventory">
         <div className="space-y-5">
@@ -320,7 +323,9 @@ const products = productsData?.items ?? [];
             />
           </DialogContent>
         </Dialog>
-      </AppShell>
-    </ProtectedRoute>
+          </AppShell>
+      </ProtectedRoute>
+      </RoleGuard>
+   
   );
 }

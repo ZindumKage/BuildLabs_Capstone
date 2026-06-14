@@ -25,8 +25,8 @@ app = FastAPI(title=settings.APP_NAME, version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
-        "https://buildlabs-capstone-1.onrender.com"
+        # "http://localhost:3000",
+         "https://buildlabs-capstone-1.onrender.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
