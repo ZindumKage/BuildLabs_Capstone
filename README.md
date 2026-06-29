@@ -43,6 +43,13 @@ The application consists of:
 - Revenue today
 - Revenue this month
 - Best-selling products
+<img width="1366" height="758" alt="smart inventory page 1" src="https://github.com/user-attachments/assets/ae2370d0-1826-4ce7-bf24-18317b9e22b2" />
+<img width="1354" height="639" alt="smart inventory page 2" src="https://github.com/user-attachments/assets/e97150a5-46d2-4a36-b91a-a4f681336f90" />
+<img width="978" height="630" alt="smart inventory page 3" src="https://github.com/user-attachments/assets/802f65b1-580a-4b82-bc75-f86c73c748e6" />
+
+<img width="960" height="534" alt="smart inventory page 4" src="https://github.com/user-attachments/assets/684e8628-9a27-47a1-af26-e26782b57674" />
+
+
 
 ### AI Assistant
 
