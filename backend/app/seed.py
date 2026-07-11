@@ -7,6 +7,7 @@ from app.core.security import hash_password
 
 def seed_admin():
     db = SessionLocal()
+    print("Running admin seed")
 
     try:
         admin = db.query(User).filter(User.role == "admin").first()

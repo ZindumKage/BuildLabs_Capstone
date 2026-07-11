@@ -47,8 +47,8 @@ app.include_router(ai_router, prefix="/api/v1")
 async def lifespan(app: FastAPI):
     seed_admin()
     yield
-    
-    app = FastAPI(lifespan=lifespan, title=settings.APP_NAME)  
+
+app = FastAPI(lifespan=lifespan, title=settings.APP_NAME)  
 @app.get("/")
 def root():
     return {"message": "Smart Inventory Tracker API"}
