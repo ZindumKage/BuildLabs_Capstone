@@ -2,7 +2,8 @@ import os
 
 from app.core.database import SessionLocal
 from app.models.user import User
-from app.core.security import get_password_hash
+from app.core.security import hash_password
+
 
 def seed_admin():
     db = SessionLocal()
@@ -11,22 +12,20 @@ def seed_admin():
         admin = db.query(User).filter(User.role == "admin").first()
 
         if admin:
+            print(" Admin already exists.")
             return
 
         admin = User(
-            
-            email = os.getenv("ADMIN_EMAIL"),
-
-            password = os.getenv("ADMIN_PASSWORD"),
-
-            username = os.getenv("ADMIN_USERNAME", "admin"),
+            full_name="System Administrator",
+            email=os.getenv("ADMIN_EMAIL"),
+            password=hash_password(os.getenv("ADMIN_PASSWORD")),
             role="admin",
         )
 
         db.add(admin)
         db.commit()
 
-        print("✅ Admin seeded.")
+        print(" Admin created.")
 
     finally:
         db.close()
