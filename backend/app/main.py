@@ -23,13 +23,24 @@ import app.models.sale
 Base.metadata.create_all(bind=engine)
 
 
-app = FastAPI(title=settings.APP_NAME, version="1.0.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
 
+    seed_admin()
+
+    yield
+
+
+app = FastAPI(
+    title=settings.APP_NAME,
+    version="1.0.0",
+    lifespan=lifespan,
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         # "http://localhost:3000",
-         "https://buildlabs-capstone-1.onrender.com"
+        "https://buildlabs-capstone-1.onrender.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -43,12 +54,7 @@ app.include_router(sales_router, prefix="/api/v1")
 app.include_router(dashboard_router, prefix="/api/v1")
 app.include_router(ai_router, prefix="/api/v1")
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    seed_admin()
-    yield
 
-app = FastAPI(lifespan=lifespan, title=settings.APP_NAME)  
 @app.get("/")
 def root():
     return {"message": "Smart Inventory Tracker API"}
