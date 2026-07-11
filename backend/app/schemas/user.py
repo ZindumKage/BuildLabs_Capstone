@@ -34,4 +34,3 @@ class UserResponse(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
-print(hash_password("Admin123"))
