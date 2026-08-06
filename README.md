@@ -89,7 +89,7 @@ StockSense/
 │   │   └── main.py
 │   │
 │   ├── requirements.txt
-│   └── .env
+│   
 │
 └── README.md
 ```
